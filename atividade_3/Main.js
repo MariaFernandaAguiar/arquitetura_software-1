@@ -1,24 +1,20 @@
-const Departamento = require('./Departamento');
+// main.js
 const FuncionarioIndividual = require('./FuncionarioIndividual');
+const Departamento = require('./Departamento');
 
-const deptoPrincipal = new Departamento("Departamento Principal");
+const departamentoTI = new Departamento('Tecnologia da Informação');
+const departamentoRH = new Departamento('Recursos Humanos');
 
-const subDepto1 = new Departamento("Subdepartamento 1");
-const subDepto2 = new Departamento("Subdepartamento 2");
+const func1 = new FuncionarioIndividual('João', 3000);
+const func2 = new FuncionarioIndividual('Maria', 3500);
+const func3 = new FuncionarioIndividual('Carlos', 2500);
 
-const funcionario1 = new FuncionarioIndividual("João", 2500);
-const funcionario2 = new FuncionarioIndividual("Maria", 3000);
-const funcionario3 = new FuncionarioIndividual("Pedro", 4000);
+departamentoTI.adicionarFuncionario(func1);
+departamentoTI.adicionarFuncionario(func2);
+departamentoRH.adicionarFuncionario(func3);
 
-deptoPrincipal.adicionarFuncionario(funcionario1);
-deptoPrincipal.adicionarSubdepartamento(subDepto1);
+departamentoTI.mostrar();  
+departamentoRH.mostrar();  
 
-subDepto1.adicionarFuncionario(funcionario2);
-subDepto1.adicionarSubdepartamento(subDepto2);
-
-subDepto2.adicionarFuncionario(funcionario3);
-
-deptoPrincipal.mostrar();
-
-const salarioTotal = deptoPrincipal.calcularSalarioTotal();
-console.log(`Salário total do departamento: R$ ${salarioTotal.toFixed(2)}`);
+console.log(`Salário total do Departamento de TI: R$ ${departamentoTI.calcularSalario()}`);
+console.log(`Salário total do Departamento de RH: R$ ${departamentoRH.calcularSalario()}`);

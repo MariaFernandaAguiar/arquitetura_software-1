@@ -1,12 +1,13 @@
+// FuncionarioIndividual.js
+const Component = require('./Component');
 
-const Funcionario = require('./Funcionario');
-
-class FuncionarioIndividual extends Funcionario {
+class FuncionarioIndividual extends Component {
     constructor(nome, salario) {
-        super(nome, salario); 
+        super(nome);
+        this.salario = salario;
     }
 
-    exibir() {
+    mostrar() {
         console.log(`Funcionário Individual: ${this.nome}, Salário: R$ ${this.salario}`);
     }
 
