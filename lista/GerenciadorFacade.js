@@ -1,5 +1,4 @@
 const GerenciadorContatos = require('./GerenciadorContatos');
-const { BuscaPorNome, BuscaPorTelefone, BuscaPorEmail } = require('./BuscaStrategy');
 const EmailStrategy = require('./BuscaEmail');
 const NomeStrategy = require('./BuscaNome');
 const TelefoneStrategy = require('./BuscaTelefone');
