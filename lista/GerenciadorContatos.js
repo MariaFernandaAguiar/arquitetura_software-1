@@ -1,4 +1,3 @@
-const { BuscaPorNome, BuscaPorTelefone, BuscaPorEmail } = require('./BuscaStrategy');
 
 class GerenciadorContatos {
     constructor() {
@@ -7,6 +6,7 @@ class GerenciadorContatos {
 
     adicionarContato(contato) {
         console.log(`=====================================================`);
+        console.log("Adicionar contato:");
         this.contatos.push(contato);
         console.log(`Contato ${contato.nome} adicionado com sucesso.`);
     }
@@ -14,6 +14,9 @@ class GerenciadorContatos {
     // Método para remover um contato
     removerContato(nome) {
         const contatoNome = this.contatos.findIndex(contato => contato.nome === nome);
+
+        console.log(`=====================================================`);
+        console.log("Remover contato:");
 
         if (contatoNome === -1) {
             console.log("Contato não encontrado.");
@@ -28,13 +31,14 @@ class GerenciadorContatos {
     listarContatos() {
         console.log(`=====================================================`);
         console.log("Lista de contatos:");
-        this.contatos.forEach(contato => console.log(`- Nome : ${contato.nome} - Telefone: ${contato.telefone} - Email: ${contato.email})`));
+        this.contatos.forEach(contato => console.log(`- Nome : ${contato.nome} - Telefone: ${contato.telefone} - Email: ${contato.email}`));
     }
 
-    BuscarContatos() {
+    BuscarContatos(termo) {
         //buscar contato utolizando strategy
         const contatosEncontrados = this.strategy.busca(this.contatos, termo);
         console.log(`=====================================================`);
+        console.log("Busca de contatos:");
         console.log("Contatos encontrados:");
         contatosEncontrados.forEach(contato => console.log(`- Nome: ${contato.nome} - Telefone: ${contato.telefone} - Email: ${contato.email}`));
         

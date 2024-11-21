@@ -7,4 +7,3 @@ class BuscaStrategy {
 
 module.exports = BuscaStrategy;
 
-
