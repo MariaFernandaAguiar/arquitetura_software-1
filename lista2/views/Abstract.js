@@ -1,4 +1,4 @@
-class AbstractFormater {
+class Abstract{
 
     output (cities) {
       throw new Error('Should implement output method...');
@@ -6,4 +6,4 @@ class AbstractFormater {
   
 }
 
-module.exports = AbstractFormater;
+module.exports = Abstract;
