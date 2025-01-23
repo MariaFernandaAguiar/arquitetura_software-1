@@ -11,20 +11,28 @@ class User {
     this.email_user = email_user;
   
     this.password_user = password_user;
-
-    this.usuarios = [];
   
   }
 
   show_user() {
   
-    console.log(`Código do produto: ${this.id_user}`);
+    console.log(`ID: ${this.id_user}`);
   
     console.log(`Nome : ${this.name_user}`);
   
     console.log(`Email : ${this.email_user}`);
   
-    console.log(`Preço: ${this.password_user}`);
+    console.log(`Senha: ${this.password_user}`);
+  
+  }
+
+  showAllUsers() {
+      
+    this.usuarios.forEach(usuario => {
+  
+      usuario.show_user();
+  
+    });
   
   }
 
@@ -35,14 +43,30 @@ class User {
   }
 
   async hashPassword(password) {
+   
     const salt = await bcrypt.genSalt(10);
+   
     return await bcrypt.hash(password, salt);
+  
   }
 
   static async findByEmail(email) {
+   
     const usuario = User.usuarios.find(usuario => usuario.email_user === email);
       
     return usuario||null;
+  }
+
+  static async addNewUser(name,email,password){
+
+    const user =  new User(name,email,password);
+
+    user.password_user = await user.hashPassword(password);
+
+    User.usuarios.push(user);
+
+    return user;
+
   }
 
 
