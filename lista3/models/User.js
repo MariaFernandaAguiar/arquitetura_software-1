@@ -25,6 +25,10 @@ class User {
   
   }
 
+
 }
+
+const usuario = new User(1,'João','joao@hotmail.com','123456');
+
 
 module.exports = User;

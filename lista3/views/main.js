@@ -1,39 +1,42 @@
 const readline = require('readline');
 const { stdin:input, stdout:output } = require('node:process');
-const AuthController = require('../controllers/AuthController');
+const authRoutes = require('../routes/AuthRoutes');
 
 const rl = readline.createInterface({input,output});
 
-const autenticacao_login = () => {
+const API_URL = `http://localhost:${process.env.PORT || 3000}`;
 
-    rl.on('line', async (line) => {
 
-        const input = line.trim();
-
-         
-        rl.question('Informe o nome do usuário:', (answer_name) => {
-
-            rl.question('Informe a senha do usuário:', (answer_password) => {
-                
-                const req = {
-                    body: {
-                        username: answer_name,
-                        password: answer_password
-                    }
-                };
-
-                await AuthController.login(req, res);
-
-                console.log('Autenticando usuario');
-
+const autenticacao_login = async () => {
+  
+    return new Promise((resolve) => {
+  
+        rl.question('Informe o email do usuário: ', (email) => {
+  
+            rl.question('Informe a senha do usuário: ', async (password) => {
+  
+                try {
+  
+                    const response = await axios.post(`${API_URL}/auth/login`, { email, password });
+  
+                    console.log('Usuário autenticado com sucesso.');
+  
+                    resolve(response.data);
+                } catch (error) {
+  
+                    console.error('Falha na autenticação:', error.response?.data?.message || error.message);
+  
+                    resolve(null);
+  
+                }
+  
             });
-
-
+  
         });
-
+  
     });
-
-}
+  
+};
 
 const menu = () => {
 
@@ -49,10 +52,11 @@ const limparTela = () => {
 };
 
 const main = async () => {
+
+    const auth = await autenticacao_login();
     
-    if (autenticacao_login) {
+    if (auth === true){ 
         console.log('Usuario autenticado');
-        menu();
 
             
         rl.on('line', async (line) => {
@@ -99,10 +103,9 @@ const main = async () => {
             rl.prompt();
 
         });
-    }else{
-        console.log('Usuario não autenticado');
+    }else {
+        console.log('Falha na autenticação. Verifique suas credenciais.');
     }
-
 
 }
 
