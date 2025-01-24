@@ -44,6 +44,22 @@ class UserController {
 
         return res.status(200).json({ user });
     }
+
+    async listProducts(req, res) {
+          
+        try{
+            const users = User.getUsers();
+            if (!users) {
+                return res.status(404).json({ message: 'No users found' });
+            }
+            return res.status(200).json({ users });
+        }
+
+        catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
+    
+    }
   
 }
 

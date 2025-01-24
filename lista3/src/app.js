@@ -4,6 +4,8 @@ const dotenv = require('dotenv');
 
 const userRoutes = require('./routes/UserRoutes');
 
+const productRoutes = require('./routes/ProductRoutes');
+
 dotenv.config();
 
 const app = express();
@@ -17,6 +19,9 @@ app.get('/', (req, res) => {
 });
 
 app.use('/user', userRoutes);
+
+app.use('/product',productRoutes)
+
 
 const PORT = process.env.PORT ;
 

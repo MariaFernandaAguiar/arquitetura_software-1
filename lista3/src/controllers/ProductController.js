@@ -3,13 +3,20 @@ const Product = require('../models/Product');
 
 class ProductController {
 
-    listProducts() {
-   
-        console.log(`=====================================================`);
-   
-        console.log("Lista de produtos:");
-   
-        Product.showAllProducts();
+    async listProducts(req, res) {
+      
+        try{
+            const products = Product.getProducts();
+            if (!products) {
+                return res.status(404).json({ message: 'No products found' });
+            }
+            return res.status(200).json({ products });
+        }
+
+        catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
+
     }
 
     adicionarProduct(product) {
@@ -20,7 +27,7 @@ class ProductController {
    
     }
 
-    getProductDetails(id_product) {
+    async getProductDetails(id_product) {
    
         return this.products.find(product => product.id_product === id_product);
    

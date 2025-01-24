@@ -15,35 +15,15 @@ class User {
   
   }
 
-  showUser() {
+  static getUsers() {
   
-    console.log(`ID: ${this.id_user}`);
-  
-    console.log(`Nome : ${this.name_user}`);
-  
-    console.log(`Email : ${this.email_user}`);
-  
-    console.log(`Senha: ${this.password_user}`);
+    return User.users;
   
   }
 
-  showAllUsers() {
-      
-    this.usuarios.forEach(usuario => {
-  
-      usuario.show_user();
-  
-    });
-  
-  }
+  static getId() {
 
-  async getId() {
-
-    currentId = 1;
-
-    this.id_user = await User.currentId++;
-
-    return this.id_user;
+    return User.currentId++;
 
   }
 
@@ -63,7 +43,7 @@ class User {
 
   static async findByEmail(email) {
    
-    const usuario = User.usuarios.find(usuario => usuario.email_user === email);
+    const usuario = User.users.find(usuario => usuario.email_user === email);
       
     return usuario||null;
   }
@@ -74,7 +54,7 @@ class User {
 
     user.password_user = await user.hashPassword(password);
 
-    User.usuarios.push(user);
+    User.users.push(user);
 
     return user;
 
@@ -87,7 +67,7 @@ class User {
   const hashedPassword = await new User().hashPassword('123456');
   const hashedPasswordMaria = await new User().hashPassword('123456');
 
-  User.usuarios = [
+  User.users = [
     new User(1, 'João', 'joao@hotmail.com', hashedPassword),
     new User(2, 'Maria', 'maria@gmail.com', hashedPasswordMaria)
   ];
