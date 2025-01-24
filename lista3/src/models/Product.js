@@ -11,13 +11,23 @@ class Product {
   
   }
 
-  show_product() {
+  showProduct() {
   
     console.log(`Código do produto: ${this.id_product}`);
   
     console.log(`Nome : ${this.name_product}`);
   
     console.log(`Preço: ${this.price_product}`);
+  
+  }
+
+  showAllProducts() {
+      
+    this.products.forEach(product => {
+  
+      product.showProduct();
+  
+    });
   
   }
 

@@ -9,7 +9,7 @@ class Payment {
   
   }
 
-  show_payment() {
+  showPayment() {
   
     console.log(`Código do pagamento: ${this.id_payment}`);
   

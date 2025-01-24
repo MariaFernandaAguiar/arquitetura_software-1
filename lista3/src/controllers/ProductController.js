@@ -1,18 +1,17 @@
+const Product = require('../models/Product');
+
 
 class ProductController {
 
-    // Método para listar todos os produtos
-    listarProducts() {
+    listProducts() {
    
         console.log(`=====================================================`);
    
         console.log("Lista de produtos:");
    
-        this.contatos.forEach(contato => console.log(`- Nome : ${product.nome} - Preço: ${product.preco} - Estoque: ${product.estoque}`));
-   
+        Product.showAllProducts();
     }
 
-    // Método para adicionar um produto
     adicionarProduct(product) {
    
         this.products.push(product);
@@ -21,7 +20,6 @@ class ProductController {
    
     }
 
-    // Método para buscar um produto pelo id
     getProductDetails(id_product) {
    
         return this.products.find(product => product.id_product === id_product);
@@ -30,3 +28,5 @@ class ProductController {
 
 
 }
+
+module.exports = ProductController;

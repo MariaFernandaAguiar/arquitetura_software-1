@@ -16,7 +16,7 @@ class Order {
     }
 
     // Método para mostrar as informações do pedido
-    show_order() {
+    showOrder() {
         
         console.log(`Código do pedido: ${this.id_order}`);
         

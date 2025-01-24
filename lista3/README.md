@@ -6,7 +6,7 @@ Requisitos:
 Descrição do sistema:
 O sistema de gerenciamento de pedidos deve ser composto por pelo menos 4 microsserviços, cada um representando uma responsabilidade específica:
 
-Serviço de Autenticação: Gerencia o login dos usuários(OK) e autentica os acessos ao sistema.
+Serviço de Autenticação: Gerencia o login dos usuários(OK) e autentica os acessos ao sistema.(OK)
 Serviço de Catálogo de Produtos: Gerencia os dados dos produtos, como nome, preço e estoque.
 Serviço de Pedidos: Gerencia a criação de pedidos, associando usuários aos itens comprados e calculando o total da compra.
 Serviço de Pagamentos: Processa os pagamentos de pedidos e altera o estado do pedido para "pago" ou "pendente".

@@ -1,10 +1,11 @@
 const bcrypt = require('bcrypt');
 
 class User {
+
   
-  constructor(id_user,name_user,email_user,password_user){
+  constructor(name_user,email_user,password_user){
   
-    this.id_user = id_user ;
+    this.id_user = User.getId();
   
     this.name_user = name_user;
   
@@ -14,7 +15,7 @@ class User {
   
   }
 
-  show_user() {
+  showUser() {
   
     console.log(`ID: ${this.id_user}`);
   
@@ -34,6 +35,16 @@ class User {
   
     });
   
+  }
+
+  async getId() {
+
+    currentId = 1;
+
+    this.id_user = await User.currentId++;
+
+    return this.id_user;
+
   }
 
   async verifyPassword(password) {

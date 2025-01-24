@@ -55,6 +55,7 @@ const autenticacao_login = async () => {
 const criar_usuario = async () => {
      
     return new Promise((resolve) => {
+
        
         rl.question('Informe o nome do usuário: ', (new_name) => {
        
@@ -76,8 +77,6 @@ const criar_usuario = async () => {
                         
                         console.log('Register successful:', response.data);
                         
-                        rl.close();
-
                         resolve(true);
 
                     } catch (error) {
@@ -109,7 +108,7 @@ const tela_inicial = () => {
 
 }
 
-const menu = () => {
+const menu = async () => {
     
     console.log(`                   `);
     console.log(`Bem-vindo ao Serviço de pagamentos`);
@@ -117,7 +116,14 @@ const menu = () => {
     console.log(`1 - comprar - Fazer compra`);
     console.log(`2 - pagamento - Fazer pagamento da compra`);
     console.log(`3 - produtos - Listar Todos os produtos`);
-}
+
+    rl.on('line', async (line) => {
+
+        const input = line.trim();
+
+        return input;
+    });
+}    
 
 const limparTela = () => {
     console.clear(); 
