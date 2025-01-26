@@ -1,59 +1,91 @@
-const ProductController = require('../controllers/ProductController');
+const ProductModel= require('../models/Product');
 
 class Order {
-    constructor(id_order, status = 'Pending'){
+    static currentId = 0; 
+
+    constructor(id_user){
        
-        this.id_order = id_order ;
-       
-        this.id_user = id_user;
-       
-        this.products = [];
-       
+        this.id_order = Order.getId() ;
+
+        this.uder_id - id_user;
+                     
         this.totalOrderValue = 0;
-       
-        this.status_order = status;
+
+        this.quantity_order = 0;
 
     }
 
-    // Método para mostrar as informações do pedido
+    static getId() {
+
+        return ++Order.currentId;
+    
+        
+    }
+
+    static getUsers() {
+  
+        return Order.orders;
+      
+    }
+    
+
     showOrder() {
         
         console.log(`Código do pedido: ${this.id_order}`);
         
         console.log(`Código do cliente : ${this.id_user}`);
         
-        console.log(`Produtos : `);
-        
-        this.products.forEach((product, id )=>{
-           
-            console.log(`${product.id_product} - ${product.name_product} - ${product.price_product}`)
-        
-        })
-        
         console.log(`Total do pedido: ${this.total_price_order}`);
         
         console.log(`Status do pedido: ${this.status}`);
     }
 
-    // Método para adicionar um produto ao pedido e alterar o valor total do pedido
-    addProduct(id_product){
-       
-        const product = ProductController.getProductDetails(id_product);
+    static async findById(order_id) {
+        
+        const order = Order.orders.find(order => order.id_order === order_id);
+        
+        return order || null;
+    }
 
-        if (!product) {
-            throw new Error('O código informado não existe');
+    static getOrders() {
+  
+        return Order.orders;
+      
+    }
+    
 
+    async addProductOrder(user_id,response, quantity) {
+
+        const product = response.data.product;
+
+        if(product.stock_product < quantity) {
+
+            console.log("Estoque insuficiente");
+        
+            return false;
+        
+        }else {
+        
+            this.totalOrderValue = (this.totalOrderValue || 0) + product.price_product * quantity;
+
+            this.quantity_order = this.quantity_order  + quantity;
+
+            const order = new Order(user_id,this.totalOrderValue, this.quantity_order);
+
+            Order.orders.push(order);
+
+            return order;
+        
         }
 
-        this.products.push(product);
-        
-        this.total_price_order += price_product ;
-
-        return this.total_price_order;
     }
 
 
-
 }
+
+Order.orders = [
+    new Order(1, 100.36, 3),
+    new Order(2, 37.90, 1)
+];
 
 module.exports = Order;

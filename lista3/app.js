@@ -1,14 +1,22 @@
 const express = require('express');
 
+const session = require('express-session');
+
 const dotenv = require('dotenv');
 
-const userRoutes = require('./routes/UserRoutes');
+const userRoutes = require('./src/routes/UserRoutes');
 
-const productRoutes = require('./routes/ProductRoutes');
+const productRoutes = require('./src/routes/ProductRoutes');
+
+const OrderRoutes = require('./src/routes/OrderRoutes');
 
 dotenv.config();
 
+const bodyParser = require('body-parser');
 const app = express();
+
+app.use(bodyParser.json());
+
 
 app.use(express.json());
 
@@ -22,6 +30,7 @@ app.use('/user', userRoutes);
 
 app.use('/product',productRoutes)
 
+app.use('/order', OrderRoutes);
 
 const PORT = process.env.PORT ;
 

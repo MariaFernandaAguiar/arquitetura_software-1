@@ -2,7 +2,8 @@ const bcrypt = require('bcrypt');
 
 class User {
 
-  
+  static currentId = 0; 
+
   constructor(name_user,email_user,password_user){
   
     this.id_user = User.getId();
@@ -27,12 +28,14 @@ class User {
 
   }
 
+  // Método para verificar a senha
   async verifyPassword(password) {
 
     return await bcrypt.compare(password, this.password_user);
 
   }
 
+  // Método para criptografar a senha
   async hashPassword(password) {
    
     const salt = await bcrypt.genSalt(10);
@@ -51,6 +54,12 @@ class User {
   static async addNewUser(name,email,password){
 
     const user =  new User(name,email,password);
+
+    if (await User.findByEmail(email)) {
+      
+      return null;
+    
+    }
 
     user.password_user = await user.hashPassword(password);
 

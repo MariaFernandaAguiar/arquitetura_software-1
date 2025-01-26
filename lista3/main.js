@@ -2,10 +2,11 @@ const readline = require('readline');
 const { stdin: input, stdout: output } = require('node:process');
 const rl = readline.createInterface({ input, output });
 
-const API_URL = `http://localhost:3000`;
-const axios = require('axios');
+const UserController = require("./src/controllers/UserController");
 
-const {menu, limparTela, criar_usuario, autenticacao_login , ListarProdutos} = require('./src/views/commands')
+const userController = new UserController();
+
+const {menu, limparTela, criar_usuario, autenticacao_login , ListarProdutos, BuyProduct,BuscarProduto} = require('./src/views/commands')
 
 const main = async () => {
     
@@ -54,18 +55,22 @@ const main = async () => {
 
     
             } else if (input === '2') {
-    
-                rl.question('Informe o codigo do produto: ', (product_code) => {
-    
-                    console.log(`Produto ${product_code}`);
-    
-                });
+                
+                const order = await BuyProduct();
+
+                console.log('Pedido realizado com sucesso:', order);
 
                 menu();
 
                 rl.prompt();
     
             } else if (input === '3') {
+
+                const product  = await BuscarProduto();
+
+                if(!product){
+                    console.log('Produto não encontrado');
+                }
             
                 menu();
     

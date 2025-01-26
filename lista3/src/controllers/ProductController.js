@@ -19,18 +19,23 @@ class ProductController {
 
     }
 
-    adicionarProduct(product) {
-   
-        this.products.push(product);
-   
-        console.log(`Produto adicionado com sucesso!`);
-   
-    }
+    async getProductDetails(req, res) {
 
-    async getProductDetails(id_product) {
-   
-        return this.products.find(product => product.id_product === id_product);
-   
+        const {id_product} = req.body;
+      
+        try {
+            const product = await Product.getOneProduct(id_product);
+
+            if (!product) {
+                return res.status(404).json({ message: 'No product found' });
+            }
+
+            return res.status(200).json({ product });
+
+        }catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
+       
     }
 
 

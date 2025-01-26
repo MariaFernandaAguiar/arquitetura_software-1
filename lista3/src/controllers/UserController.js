@@ -14,14 +14,14 @@ class UserController {
         const user = await User.findByEmail(email_user);
         
         if (!user) {
-            return res.status(401).json({ message: 'Invalid credentials' });
+            return res.status(401).json({ message: 'Invalid  email credentials' });
         }
 
         const isValidPassword = await user.verifyPassword(password_user);
 
         if(!isValidPassword) {
         
-            return res.status(401).json({ message: 'Invalid credentials' });
+            return res.status(401).json({ message: 'Invalid password credentials' });
         
         }
 
@@ -45,7 +45,7 @@ class UserController {
         return res.status(200).json({ user });
     }
 
-    async listProducts(req, res) {
+    async listUsers(req, res) {
           
         try{
             const users = User.getUsers();
@@ -60,7 +60,25 @@ class UserController {
         }
     
     }
+
+    
+
+    async pegarUsuarioAtravesDoToken (token) {
+    
+        try {
+    
+            const usuario = jwt.verify(token, process.env.JWT_SECRET);
+
+            console.log('Usuário autenticado:', usuario);
+    
+            return usuario;
+    
+        } catch (error) {
+            console.error('Erro ao pegar usuário:', error);
+        }
+    
+    };
   
 }
 
-module.exports = UserController
+module.exports = UserController;
