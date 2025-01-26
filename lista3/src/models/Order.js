@@ -1,13 +1,13 @@
-const ProductModel= require('../models/Product');
 
 class Order {
     static currentId = 0; 
+    static orders = [];  
 
-    constructor(id_user){
+    constructor(user_id){
        
         this.id_order = Order.getId() ;
 
-        this.uder_id - id_user;
+        this.user_id = user_id;
                      
         this.totalOrderValue = 0;
 
@@ -17,12 +17,12 @@ class Order {
 
     static getId() {
 
-        return ++Order.currentId;
+        return Order.currentId++;
     
         
     }
 
-    static getUsers() {
+    static getUOrders() {
   
         return Order.orders;
       
@@ -40,11 +40,8 @@ class Order {
         console.log(`Status do pedido: ${this.status}`);
     }
 
-    static async findById(order_id) {
-        
-        const order = Order.orders.find(order => order.id_order === order_id);
-        
-        return order || null;
+    static getOrderByUserId(userId) {
+        return Order.orders.find(order => order.user_id === userId) || null;
     }
 
     static getOrders() {
@@ -65,14 +62,17 @@ class Order {
             return false;
         
         }else {
-        
-            this.totalOrderValue = (this.totalOrderValue || 0) + product.price_product * quantity;
 
-            this.quantity_order = this.quantity_order  + quantity;
+            let order = Order.getOrderByUserId(user_id);
 
-            const order = new Order(user_id,this.totalOrderValue, this.quantity_order);
+            if (!order) {
+                order = new Order(user_id);  
+                Order.orders.push(order);
+            }
 
-            Order.orders.push(order);
+            order.totalOrderValue += product.price_product * quantity;
+
+            order.quantity_order += parseInt(quantity);
 
             return order;
         
@@ -84,8 +84,9 @@ class Order {
 }
 
 Order.orders = [
-    new Order(1, 100.36, 3),
-    new Order(2, 37.90, 1)
+    new Order(1,1,100.36, 3),
+    new Order(2,2,37.90, 1),
+    new Order(3,3,55.90, 2)
 ];
 
 module.exports = Order;

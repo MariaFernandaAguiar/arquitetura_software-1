@@ -23,7 +23,7 @@ const criar_pedido = async () => {
 
         console.log('');
 
-        console.log('----Iniciar pedido----');
+        console.log('-------- Iniciar pedido --------');
 
         console.log('');
 
@@ -58,12 +58,13 @@ const criar_pedido = async () => {
                 };
     
                 const response = await orderController.createOrder(req,res);
-                console.log(response.code);
+
                 console.log("                       ");
                 console.log("--------PEDIDO---------");
                 console.log("Id do pedido:", response.data.order.id_order);
-                console.log("Total do pedido",response.data.order.totalOrderValue);
-                console.log("Quantidade de itens",response.data.order.quantity_order);
+                console.log("Id do usuário:", response.data.order.user_id);
+                console.log("Total do pedido: ",response.data.order.totalOrderValue);
+                console.log("Quantidade de itens :",response.data.order.quantity_order);
 
 
                 resolve(true);
@@ -88,7 +89,14 @@ const comprar = async () =>{
 
     return new Promise((resolve) => {
 
-        rl.question('Deseja realizar compras? ', async (answer) => {
+        
+        console.log('');
+
+        console.log('------- Sessão de compras ------');
+
+        console.log('');
+
+        rl.question('Deseja realizar compras?(SIM/NÃO) ', async (answer) => {
 
             if(answer.toLowerCase() === 'sim'){
                 const criar = await criar_pedido();
@@ -97,24 +105,82 @@ const comprar = async () =>{
                   
                     console.log("Realizando compras");
                   
-                    comprar(); 
+                    const repetirCompra = await comprar();
+                    resolve(repetirCompra);
+               
                 
                 } else {
                 
                     console.log('Erro ao realizar pedido');
+                    resolve(false);
                 }
             
             } else {
             
                 console.log('Compra finalizada.');
             
-                rl.close(); 
+                resolve(true);
             
             }
         });
 
     });
 
+}
+
+const carrinho_compras = async() =>{
+
+    return new Promise( async (resolve) => {
+
+        try{
+
+            const token = `${authToken}`;  
+
+            const req = {
+                headers: {
+                    authorization: `Bearer ${token}`  
+                
+                }
+            };
+
+            const res = {
+                status: (code) => ({
+                    json: (data) => ({ code, data })
+                })
+            };
+
+            const response = await orderController.listOrder(req, res);
+
+            console.log('-------------------');
+
+            console.log('Carrinho de compras:');
+
+            console.log('-------------------');
+
+            const order = response.data.order;
+
+            
+            console.log('Id do pedido :', order.id_order);
+
+            console.log('Id do usuário:', order.user_id);
+
+            console.log('Valor total do pedido:', order.totalOrderValue);
+
+            console.log('Quantidade de itens do pedido:', order.quantity_order);
+
+            console.log('-------------------');
+
+           resolve(true);
+
+
+        }catch(error){
+            
+            console.error('Falha ao carrinho de compras:', error.response?.data?.message || error.message);
+
+            resolve(false);
+
+        }
+    });
 }
 
 const listar_produtos = async () => {
@@ -264,9 +330,9 @@ const criar_usuario = async () => {
                     
                         const response = await userController.register(req, res);
                     
-                        console.log('-------------------');
+                        console.log('--------------------------------');
                       
-                        console.log('Register successful!');
+                        //console.log('Register successful!\n');
 
                         console.log('Id do usuário:', response.data.user.id_user);
 
@@ -301,7 +367,7 @@ const autenticacao_login = async () => {
 
         console.log('');
 
-        console.log('----Login de usuário----');
+        console.log('--------Login de usuário--------');
 
         console.log('');
 
@@ -327,11 +393,11 @@ const autenticacao_login = async () => {
                 
                     const response = await userController.login(req, res);
                 
-                    console.log('-------------------');
+                    console.log('--------------------------------');
                   
-                    console.log('Login successful!');
+                    //console.log('Login successful!\n');
 
-                    console.log('Token:', response.data.token);
+                    //console.log('Token:', response.data.token);
 
                     authToken = response.data.token;
 
@@ -416,9 +482,19 @@ const main = async () => {
     const criar = await comprar();
     if(criar){
         console.log("Realizando compras");
+        const carrinho = await carrinho_compras();
+        if(carrinho){
+            console.log('Carrinho encontrado');
+        }else{
+            console.log("Falha ao buscar produto");
+        }
+
+        
     }else{
         console.log('Erro ao realizar pedido');
     }
+
+
 
 };
 

@@ -1,7 +1,5 @@
 const express = require('express');
 
-const session = require('express-session');
-
 const dotenv = require('dotenv');
 
 const userRoutes = require('./src/routes/UserRoutes');
@@ -12,11 +10,7 @@ const OrderRoutes = require('./src/routes/OrderRoutes');
 
 dotenv.config();
 
-const bodyParser = require('body-parser');
 const app = express();
-
-app.use(bodyParser.json());
-
 
 app.use(express.json());
 
